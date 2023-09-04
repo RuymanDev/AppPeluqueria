@@ -1,0 +1,58 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.formulario {
+    margin-top: 5rem;
+    width: 100%;
+}
+
+.campo {
+    display: flex;
+    margin-bottom: 2rem;
+    align-items: center;
+
+    label {
+        flex: 0 0 10rem;
+    }
+
+    input {
+        flex: 1;
+        border: none;
+        padding: calc( v.$separacion / 4 ); 
+        border-radius: 1rem;
+
+        &:disabled {
+            background-color: lighten(v.$negro, 30%);
+            color: v.$blanco;
+            cursor: not-allowed;
+        }
+    }
+
+}
+
+select {
+    flex: 1;
+    border: none;
+    padding: calc( v.$separacion / 4 ); 
+    border-radius: 1rem;
+    
+    &::-ms-expand 
+    {
+        display: none;
+    }
+    
+    option {
+
+        &:nth-child(odd){
+            background-color: lighten(v.$gris, 5%);
+        }
+        
+        &:disabled {
+            background-color: darken(v.$rojo, 5%);
+            color: v.$blanco;
+            cursor: not-allowed;
+        }
+
+        
+    }
+}
