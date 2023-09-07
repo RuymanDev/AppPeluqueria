@@ -76,6 +76,10 @@ class Usuario extends ActiveRecord {
             self::$alertas['error'][] = 'El Email es Obligatorio';
         }
 
+        if($this->email === "admin@admin.com"){
+            self::$alertas['error'][] = 'No se puede restablecer la contraseña del Admin';
+        }
+
         return self::$alertas;
     }
 

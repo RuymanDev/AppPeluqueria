@@ -301,6 +301,10 @@ function deshabilitarHoras(){
         select.replaceChildren();
     }
 
+    let esHoy = comprobarSiEsHoy();
+    const date = new Date;
+    const hora = date.getHours();
+
     let i = -1;
     while (i < horas.length) {
         const option = document.createElement('OPTION');
@@ -319,16 +323,45 @@ function deshabilitarHoras(){
         option.textContent = horas[i];
         option.value = horas[i];
 
+        // Si es hoy desabilito las horas anteriores a la actual y una hora despues
+        // para que no pueda seleccionar una hora justo un minuto antes
+        if(esHoy && parseInt(horas[i]) < hora + 1) {
+            option.setAttribute('disabled', '');
+        }
 
         // Si estan todas las fechas ocupadas deshabilitamos seleccionar horas
         if( fechas[cita.fecha] && fechas[cita.fecha].includes(horas[i]) ){
             option.textContent += ' Reservado';
             option.setAttribute('disabled', '');
+            
         } 
 
         select.appendChild(option)
         i++;
     }
+}
+
+function comprobarSiEsHoy(){
+    fechaActual = new Date()
+
+    let añoActual = fechaActual.getFullYear();
+    let hoy = fechaActual.getDate();
+    let mesActual = fechaActual.getMonth() + 1;
+
+    if(hoy < 10){
+        hoy = "0" + hoy;
+    }
+    if(mesActual < 10){
+        mesActual = "0" + mesActual;
+    }
+
+    fechaActual = añoActual +"-"+ mesActual +"-"+ hoy;
+
+    if (fechaActual === cita.fecha) {
+        return true;
+    }
+    return false;
+
 }
 
 function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
@@ -478,7 +511,7 @@ async function reservarCita() {
     try {
         // Peticion hacia la API
 
-        const url = `${location.origin}/api/citas/api/citas`; // Usar la URL principal con la api de location 
+        const url = `${location.origin}/api/citas`; // Usar la URL principal con la api de location 
         // const url = '/api/citas';
 
 
